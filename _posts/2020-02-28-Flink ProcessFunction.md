@@ -9,14 +9,12 @@ tags: Flink
 ### 基本概念 ###
 
 - ProcessFunction是什么
-
 底层API、能够访问所有流的基础构建模块
-
 	- 事件
-	- 状态(容错、一致性)
-	- 定时器(event time、processtime)
+	- 	状态(容错、一致性)
+	- 	定时器(event time、processtime、watermarker)
 
-- 使用实例
+### 使用实例
 
 ```scala
 val env=StreamExecutionEnvironment.getExecutionEnvironment
