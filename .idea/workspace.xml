@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="6701a688-7ee7-4054-a80f-3200492a7583" name="Changes" comment="push blog">
+      <change afterPath="$PROJECT_DIR$/.gitmodules" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.hugo_build.lock" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LICENSE" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/archetypes/default.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/jsconfig.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/content/_index.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/content/_index.zh-cn.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/content/categories/Test/_index.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/content/categories/Test/hutomo-abrianto-l2jk-uxb1BY-unsplash.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/content/page/about/index.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/content/page/about/index.zh-cn.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/content/page/archives/index.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/content/page/links/index.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/content/page/links/ts-logo-128.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/content/page/search/index.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/content/post/chinese-test/florian-klauer-nptLmg6jqDo-unsplash.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/content/post/chinese-test/helena-hertz-wWZzXlDpMog-unsplash.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/content/post/chinese-test/hudai-gayiran-3Od_VKcDEAA-unsplash.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/content/post/chinese-test/index.zh-cn.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/content/post/chinese-test/luca-bravo-alS7ewQ41M8-unsplash.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/content/post/emoji-support/index.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/content/post/emoji-support/the-creative-exchange-d2zvqp3fpro-unsplash.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/content/post/markdown-syntax/index.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/content/post/markdown-syntax/pawel-czerwinski-8uZPynIu-rQ-unsplash.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/content/post/math-typesetting/index.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/content/post/placeholder-text/index.ar.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/content/post/placeholder-text/index.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/content/post/placeholder-text/matt-le-SJSpo9hQf7s-unsplash.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/content/post/rich-content/index.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/_gen/assets/scss/scss/style.scss_511aa33e99371f93fbf403479ebfd32e.content" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/_gen/assets/scss/scss/style.scss_511aa33e99371f93fbf403479ebfd32e.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/_gen/images/avatar_huda2458f72ce188392d75c5d51cd8e24e_373_300x0_resize_box_3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/_gen/images/categories/Test/_hu8102ac0a5989befdf52fa5096a373f78_52927_ba0b8e744b36f1e48b9c54b5d2847004.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/_gen/images/categories/Test/hutomo-abrianto-l2jk-uxb1BY-unsplash_hu8102ac0a5989befdf52fa5096a373f78_52927_120x120_fill_q75_box_smart1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/_gen/images/post/chinese-test/florian-klauer-nptLmg6jqDo-unsplash_hu595aaf3b3dbbb41af5aed8d3958cc9f9_13854_1024x0_resize_q75_box.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/_gen/images/post/chinese-test/florian-klauer-nptLmg6jqDo-unsplash_hu595aaf3b3dbbb41af5aed8d3958cc9f9_13854_480x0_resize_q75_box.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/_gen/images/post/chinese-test/helena-hertz-wWZzXlDpMog-unsplash_hu45a5e3ad5e058da6a00650ed8fd40bea_15530_1024x0_resize_q75_box.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/_gen/images/post/chinese-test/helena-hertz-wWZzXlDpMog-unsplash_hu45a5e3ad5e058da6a00650ed8fd40bea_15530_120x120_fill_q75_box_smart1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/_gen/images/post/chinese-test/helena-hertz-wWZzXlDpMog-unsplash_hu45a5e3ad5e058da6a00650ed8fd40bea_15530_1600x0_resize_q75_box.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/_gen/images/post/chinese-test/helena-hertz-wWZzXlDpMog-unsplash_hu45a5e3ad5e058da6a00650ed8fd40bea_15530_480x0_resize_q75_box.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/_gen/images/post/chinese-test/helena-hertz-wWZzXlDpMog-unsplash_hu45a5e3ad5e058da6a00650ed8fd40bea_15530_800x0_resize_q75_box.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/_gen/images/post/chinese-test/hudai-gayiran-3Od_VKcDEAA-unsplash_hub241c2a9c7a2caf7e16a2a5bbc7141ff_18711_1024x0_resize_q75_box.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/_gen/images/post/chinese-test/hudai-gayiran-3Od_VKcDEAA-unsplash_hub241c2a9c7a2caf7e16a2a5bbc7141ff_18711_480x0_resize_q75_box.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/_gen/images/post/chinese-test/luca-bravo-alS7ewQ41M8-unsplash_hu0a3f1163de68d0b9471979ebf0ecf11e_32400_1024x0_resize_q75_box.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/_gen/images/post/chinese-test/luca-bravo-alS7ewQ41M8-unsplash_hu0a3f1163de68d0b9471979ebf0ecf11e_32400_480x0_resize_q75_box.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/_gen/images/post/emoji-support/_huf941de4769045cdfa8c9ee7036519a2a_35369_36687b530fa140121781e790cfd060e7.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/_gen/images/post/emoji-support/the-creative-exchange-d2zvqp3fpro-unsplash_huf941de4769045cdfa8c9ee7036519a2a_35369_120x120_fill_q75_box_smart1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/_gen/images/post/emoji-support/the-creative-exchange-d2zvqp3fpro-unsplash_huf941de4769045cdfa8c9ee7036519a2a_35369_1600x0_resize_q75_box.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/_gen/images/post/emoji-support/the-creative-exchange-d2zvqp3fpro-unsplash_huf941de4769045cdfa8c9ee7036519a2a_35369_800x0_resize_q75_box.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/_gen/images/post/markdown-syntax/pawel-czerwinski-8uZPynIu-rQ-unsplash_hud7e36f7e20e71be184458283bdae4646_55974_120x120_fill_q75_box_smart1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/_gen/images/post/markdown-syntax/pawel-czerwinski-8uZPynIu-rQ-unsplash_hud7e36f7e20e71be184458283bdae4646_55974_1600x0_resize_q75_box.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/_gen/images/post/markdown-syntax/pawel-czerwinski-8uZPynIu-rQ-unsplash_hud7e36f7e20e71be184458283bdae4646_55974_800x0_resize_q75_box.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/_gen/images/post/placeholder-text/_hu958d513eeefe5556a31d065479ecc5ac_14205_7bffa90d1e66ca9b8184fda08a99dc7e.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/_gen/images/post/placeholder-text/matt-le-SJSpo9hQf7s-unsplash_hu958d513eeefe5556a31d065479ecc5ac_14205_120x120_fill_q75_box_smart1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/_gen/images/post/placeholder-text/matt-le-SJSpo9hQf7s-unsplash_hu958d513eeefe5556a31d065479ecc5ac_14205_1600x0_resize_q75_box.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/_gen/images/post/placeholder-text/matt-le-SJSpo9hQf7s-unsplash_hu958d513eeefe5556a31d065479ecc5ac_14205_800x0_resize_q75_box.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/themes/hugo-theme-stack" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeStyleSettingsInfer">
+    <option name="done" value="true" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="2" />
+  </component>
+  <component name="ProjectId" id="2UTUqyVsFKTGVfg3dejRUpzspyU" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/game-netease/IdeaProjects/waveletbob.github.io/content/post/理财&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/content/post/理财" />
+      <recent name="$PROJECT_DIR$/content/post" />
+      <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/content/post" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="waveletbob.github.io" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="waveletbob.github.io" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <module name="waveletbob.github.io" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="Tox" factoryName="Tox">
+      <module name="waveletbob.github.io" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6701a688-7ee7-4054-a80f-3200492a7583" name="Changes" comment="" />
+      <created>1692963258857</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1692963258857</updated>
+    </task>
+    <task id="LOCAL-00001" summary="init">
+      <created>1692964317474</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1692964317474</updated>
+    </task>
+    <task id="LOCAL-00002" summary="init">
+      <created>1692964573805</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1692964573805</updated>
+    </task>
+    <task id="LOCAL-00003" summary="init">
+      <created>1692966476539</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1692966476539</updated>
+    </task>
+    <task id="LOCAL-00004" summary="init">
+      <created>1692966834776</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1692966834776</updated>
+    </task>
+    <task id="LOCAL-00005" summary="init">
+      <created>1692969446919</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1692969446919</updated>
+    </task>
+    <task id="LOCAL-00006" summary="init">
+      <created>1692971059540</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1692971059540</updated>
+    </task>
+    <task id="LOCAL-00007" summary="delete">
+      <created>1706865539924</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1706865539925</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="init" />
+    <MESSAGE value="delete" />
+    <option name="LAST_COMMIT_MESSAGE" value="delete" />
+  </component>
+</project>
