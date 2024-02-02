@@ -32,10 +32,6 @@ jobs:
       HUGO_VERSION: 0.113.0
       TZ: America/Los_Angeles
     steps:
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '20.x'
       - name: Checkout
         uses: actions/checkout@v3
         with:

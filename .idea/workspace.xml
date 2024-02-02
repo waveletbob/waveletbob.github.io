@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="6701a688-7ee7-4054-a80f-3200492a7583" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.github/workflows/deploy-site.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/deploy-site.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -156,7 +155,21 @@
       <option name="project" value="LOCAL" />
       <updated>1706868888643</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="push blog">
+      <created>1706870390607</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1706870390607</updated>
+    </task>
+    <task id="LOCAL-00010" summary="push blog">
+      <created>1706870546645</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1706870546646</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
