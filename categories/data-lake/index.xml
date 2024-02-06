@@ -1,4 +1,425 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>data-lake on Wavelet's blog</title><link>https://waveletbob.github.io/categories/data-lake/</link><description>Recent content in data-lake on Wavelet's blog</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>waveletbob@gmail.com</copyright><lastBuildDate>Tue, 06 Feb 2024 14:40:19 +0800</lastBuildDate><atom:link href="https://waveletbob.github.io/categories/data-lake/index.xml" rel="self" type="application/rss+xml"/><item><title>Iceberg数据湖初探-spark</title><link>https://waveletbob.github.io/p/iceberg%E6%95%B0%E6%8D%AE%E6%B9%96%E5%88%9D%E6%8E%A2-spark/</link><pubDate>Tue, 06 Feb 2024 14:40:19 +0800</pubDate><guid>https://waveletbob.github.io/p/iceberg%E6%95%B0%E6%8D%AE%E6%B9%96%E5%88%9D%E6%8E%A2-spark/</guid><description>&lt;h2 id="环境配置">环境配置&lt;/h2></description></item><item><title>Iceberg数据湖初探(一)</title><link>https://waveletbob.github.io/p/iceberg%E6%95%B0%E6%8D%AE%E6%B9%96%E5%88%9D%E6%8E%A2%E4%B8%80/</link><pubDate>Mon, 05 Feb 2024 09:57:19 +0800</pubDate><guid>https://waveletbob.github.io/p/iceberg%E6%95%B0%E6%8D%AE%E6%B9%96%E5%88%9D%E6%8E%A2%E4%B8%80/</guid><description>&lt;h2 id="简介">简介&lt;/h2>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>data-lake on Wavelet's blog</title><link>https://waveletbob.github.io/categories/data-lake/</link><description>Recent content in data-lake on Wavelet's blog</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>waveletbob@gmail.com</copyright><lastBuildDate>Tue, 06 Feb 2024 14:40:19 +0800</lastBuildDate><atom:link href="https://waveletbob.github.io/categories/data-lake/index.xml" rel="self" type="application/rss+xml"/><item><title>Iceberg数据湖初探-spark</title><link>https://waveletbob.github.io/p/iceberg%E6%95%B0%E6%8D%AE%E6%B9%96%E5%88%9D%E6%8E%A2-spark/</link><pubDate>Tue, 06 Feb 2024 14:40:19 +0800</pubDate><guid>https://waveletbob.github.io/p/iceberg%E6%95%B0%E6%8D%AE%E6%B9%96%E5%88%9D%E6%8E%A2-spark/</guid><description>&lt;h2 id="环境配置">环境配置&lt;/h2>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">/spark/to/path/spark-sql &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span>--master yarn &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span>--deploy-mode client &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span>--conf spark.executor.instances&lt;span class="o">=&lt;/span>&lt;span class="m">25&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span>--conf spark.executor.memory&lt;span class="o">=&lt;/span>2g &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span>--conf spark.executor.cores&lt;span class="o">=&lt;/span>&lt;span class="m">4&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span>--conf spark.sql.extensions&lt;span class="o">=&lt;/span>org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span>--conf spark.sql.catalog.local&lt;span class="o">=&lt;/span>org.apache.iceberg.spark.SparkCatalog &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span>--conf spark.sql.catalog.local.type&lt;span class="o">=&lt;/span>hive &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span>--conf spark.sql.catalog.local.uri&lt;span class="o">=&lt;/span>thrift://hivemetastore:port &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span>--jars /path/to/libs/iceberg-spark-runtime-3.2_2.12-1.3.1.jar &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span>-f query.sql
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="ddl">DDL&lt;/h2>
+&lt;ul>
+&lt;li>Create table&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;span class="lnt">9
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sql" data-lang="sql">&lt;span class="line">&lt;span class="cl">&lt;span class="k">CREATE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">local&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="k">table&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">USING&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">iceberg&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">OPTIONS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;path&amp;#39;&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;/path/to/table&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="s1">&amp;#39;format-version&amp;#39;&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;2&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">AS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="k">SELECT&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">FROM&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">hive_table&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">limit&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">);&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">alter&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">table&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">local&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="k">table&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">drop&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">COLUMN&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">dt&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">alter&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">table&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">local&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="k">table&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">ADD&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">COLUMN&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">dt&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">string&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">FIRST&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">alter&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">table&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">local&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="k">table&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">ADD&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">PARTITION&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">FIELD&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">dt&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">alter&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">table&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">local&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="k">table&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">set&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">TBLPROPERTIES&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;write.distribution-mode&amp;#39;&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;range&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">show&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">create&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">table&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">local&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="k">table&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>Replace table&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sql" data-lang="sql">&lt;span class="line">&lt;span class="cl">&lt;span class="k">REPLACE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">USING&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">iceberg&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">AS&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="k">SELECT&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">...&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>Drop table&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sql" data-lang="sql">&lt;span class="line">&lt;span class="cl">&lt;span class="k">DROP&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">purge&lt;/span>&lt;span class="p">];&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>Alter table&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;span class="lnt">36
+&lt;/span>&lt;span class="lnt">37
+&lt;/span>&lt;span class="lnt">38
+&lt;/span>&lt;span class="lnt">39
+&lt;/span>&lt;span class="lnt">40
+&lt;/span>&lt;span class="lnt">41
+&lt;/span>&lt;span class="lnt">42
+&lt;/span>&lt;span class="lnt">43
+&lt;/span>&lt;span class="lnt">44
+&lt;/span>&lt;span class="lnt">45
+&lt;/span>&lt;span class="lnt">46
+&lt;/span>&lt;span class="lnt">47
+&lt;/span>&lt;span class="lnt">48
+&lt;/span>&lt;span class="lnt">49
+&lt;/span>&lt;span class="lnt">50
+&lt;/span>&lt;span class="lnt">51
+&lt;/span>&lt;span class="lnt">52
+&lt;/span>&lt;span class="lnt">53
+&lt;/span>&lt;span class="lnt">54
+&lt;/span>&lt;span class="lnt">55
+&lt;/span>&lt;span class="lnt">56
+&lt;/span>&lt;span class="lnt">57
+&lt;/span>&lt;span class="lnt">58
+&lt;/span>&lt;span class="lnt">59
+&lt;/span>&lt;span class="lnt">60
+&lt;/span>&lt;span class="lnt">61
+&lt;/span>&lt;span class="lnt">62
+&lt;/span>&lt;span class="lnt">63
+&lt;/span>&lt;span class="lnt">64
+&lt;/span>&lt;span class="lnt">65
+&lt;/span>&lt;span class="lnt">66
+&lt;/span>&lt;span class="lnt">67
+&lt;/span>&lt;span class="lnt">68
+&lt;/span>&lt;span class="lnt">69
+&lt;/span>&lt;span class="lnt">70
+&lt;/span>&lt;span class="lnt">71
+&lt;/span>&lt;span class="lnt">72
+&lt;/span>&lt;span class="lnt">73
+&lt;/span>&lt;span class="lnt">74
+&lt;/span>&lt;span class="lnt">75
+&lt;/span>&lt;span class="lnt">76
+&lt;/span>&lt;span class="lnt">77
+&lt;/span>&lt;span class="lnt">78
+&lt;/span>&lt;span class="lnt">79
+&lt;/span>&lt;span class="lnt">80
+&lt;/span>&lt;span class="lnt">81
+&lt;/span>&lt;span class="lnt">82
+&lt;/span>&lt;span class="lnt">83
+&lt;/span>&lt;span class="lnt">84
+&lt;/span>&lt;span class="lnt">85
+&lt;/span>&lt;span class="lnt">86
+&lt;/span>&lt;span class="lnt">87
+&lt;/span>&lt;span class="lnt">88
+&lt;/span>&lt;span class="lnt">89
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sql" data-lang="sql">&lt;span class="line">&lt;span class="cl">&lt;span class="k">ALTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">RENAME&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TO&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">new_name&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">ALTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">SET&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">TBLPROPERTIES&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;read.split.target-size&amp;#39;&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;268435456&amp;#39;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="p">);&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">ALTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">UNSET&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">TBLPROPERTIES&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;read.split.target-size&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">ALTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">SET&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">TBLPROPERTIES&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;comment&amp;#39;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;A table comment.&amp;#39;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="p">);&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">ALTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">ADD&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">COLUMNS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="n">new_column&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">string&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">comment&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;new_column docs&amp;#39;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="p">);&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">ALTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">ADD&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">COLUMN&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">new_column&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nb">bigint&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">AFTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">other_column&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">ALTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">ADD&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">COLUMN&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">nested&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">new_column&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nb">bigint&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">FIRST&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">ALTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">RENAME&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">COLUMN&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">data&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TO&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">payload&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">ALTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">RENAME&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">COLUMN&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">location&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">lat&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TO&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">latitude&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">ALTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">ALTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">COLUMN&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">measurement&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TYPE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">double&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">ALTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">DROP&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">COLUMN&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">id&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">ALTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">DROP&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">COLUMN&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">point&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">z&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">ALTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">ADD&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">PARTITION&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">FIELD&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">catalog&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c1">-- identity transform
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">ALTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">DROP&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">PARTITION&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">FIELD&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">catalog&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">ALTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">DROP&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">PARTITION&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">FIELD&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">bucket&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">16&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">id&lt;/span>&lt;span class="p">);&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">ALTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">DROP&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">PARTITION&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">FIELD&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">truncate&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">4&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">data&lt;/span>&lt;span class="p">);&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">ALTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">DROP&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">PARTITION&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">FIELD&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">year&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">ts&lt;/span>&lt;span class="p">);&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">ALTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">DROP&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">PARTITION&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">FIELD&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">shard&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">ALTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">REPLACE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">PARTITION&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">FIELD&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">ts_day&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">WITH&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">day&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">ts&lt;/span>&lt;span class="p">);&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- use optional AS keyword to specify a custom name for the new partition field
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">ALTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">REPLACE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">PARTITION&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">FIELD&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">ts_day&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">WITH&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">day&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">ts&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">AS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">day_of_ts&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">ALTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">WRITE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">ORDERED&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">BY&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">category&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">id&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- use optional ASC/DEC keyword to specify sort order of each field (default ASC)
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">ALTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">WRITE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">ORDERED&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">BY&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">category&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">ASC&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">id&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">DESC&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- use optional NULLS FIRST/NULLS LAST keyword to specify null order of each field (default FIRST)
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">ALTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">WRITE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">ORDERED&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">BY&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">category&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">ASC&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">NULLS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">LAST&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">id&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">DESC&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">NULLS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">FIRST&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">INSERT&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">INTO&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">SELECT&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">id&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">data&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">category&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">ts&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">FROM&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">another_table&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">ORDER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">BY&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">ts&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">category&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">ALTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">WRITE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">LOCALLY&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">ORDERED&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">BY&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">category&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">id&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">ALTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">WRITE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">UNORDERED&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">ALTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">WRITE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">DISTRIBUTED&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">BY&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">PARTITION&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">ALTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">WRITE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">DISTRIBUTED&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">BY&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">PARTITION&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">LOCALLY&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">ORDERED&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">BY&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">category&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">id&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">ALTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">SET&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">IDENTIFIER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">FIELDS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">id&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- single column
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">ALTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">SET&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">IDENTIFIER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">FIELDS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">id&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">data&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- multiple columns
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">ALTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">DROP&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">IDENTIFIER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">FIELDS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">id&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- single column
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">ALTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">DROP&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">IDENTIFIER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">FIELDS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">id&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">data&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- multiple columns
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">-- CREATE audit-branch at current snapshot with default retention.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">ALTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">CREATE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">BRANCH&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">`&lt;/span>&lt;span class="n">audit&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">branch&lt;/span>&lt;span class="o">`&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- CREATE audit-branch at current snapshot with default retention if it doesn&amp;#39;t exist.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">ALTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">CREATE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">BRANCH&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">IF&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">NOT&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">EXISTS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">`&lt;/span>&lt;span class="n">audit&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">branch&lt;/span>&lt;span class="o">`&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- CREATE audit-branch at current snapshot with default retention or REPLACE it if it already exists.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">ALTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">CREATE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">OR&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">REPLACE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">BRANCH&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">`&lt;/span>&lt;span class="n">audit&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">branch&lt;/span>&lt;span class="o">`&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- CREATE audit-branch at snapshot 1234 with default retention.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">ALTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">CREATE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">BRANCH&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">`&lt;/span>&lt;span class="n">audit&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">branch&lt;/span>&lt;span class="o">`&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">AS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">OF&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">VERSION&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="mi">1234&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- CREATE audit-branch at snapshot 1234, retain audit-branch for 31 days, and retain the latest 31 days. The latest 3 snapshot snapshots, and 2 days worth of snapshots.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">ALTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">CREATE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">BRANCH&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">`&lt;/span>&lt;span class="n">audit&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">branch&lt;/span>&lt;span class="o">`&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">AS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">OF&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">VERSION&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="mi">1234&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">RETAIN&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="mi">30&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">DAYS&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">WITH&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">SNAPSHOT&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">RETENTION&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="mi">3&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">SNAPSHOTS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="mi">2&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">DAYS&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- CREATE historical-tag at current snapshot with default retention.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">ALTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">CREATE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">TAG&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">`&lt;/span>&lt;span class="n">historical&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">tag&lt;/span>&lt;span class="o">`&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- CREATE historical-tag at current snapshot with default retention if it doesn&amp;#39;t exist.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">ALTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">CREATE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">TAG&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">IF&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">NOT&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">EXISTS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">`&lt;/span>&lt;span class="n">historical&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">tag&lt;/span>&lt;span class="o">`&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- CREATE historical-tag at current snapshot with default retention or REPLACE it if it already exists.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">ALTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">CREATE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">OR&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">REPLACE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">TAG&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">`&lt;/span>&lt;span class="n">historical&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">tag&lt;/span>&lt;span class="o">`&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- CREATE historical-tag at snapshot 1234 with default retention.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">ALTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">CREATE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">TAG&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">`&lt;/span>&lt;span class="n">historical&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">tag&lt;/span>&lt;span class="o">`&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">AS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">OF&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">VERSION&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="mi">1234&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- CREATE historical-tag at snapshot 1234 and retain it for 1 year.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">ALTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">CREATE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">TAG&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">`&lt;/span>&lt;span class="n">historical&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">tag&lt;/span>&lt;span class="o">`&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">AS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">OF&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">VERSION&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="mi">1234&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">RETAIN&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="mi">365&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">DAYS&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- REPLACE audit-branch to reference snapshot 4567 and update the retention to 60 days.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">ALTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">REPLACE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">BRANCH&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">`&lt;/span>&lt;span class="n">audit&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">branch&lt;/span>&lt;span class="o">`&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">AS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">OF&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">VERSION&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="mi">4567&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">RETAIN&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="mi">60&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">DAYS&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- REPLACE historical-tag to reference snapshot 4567 and update the retention to 60 days.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">ALTER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TABLE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">sample&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">REPLACE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">TAG&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">`&lt;/span>&lt;span class="n">historical&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">tag&lt;/span>&lt;span class="o">`&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">AS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">OF&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">VERSION&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="mi">4567&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">RETAIN&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="mi">60&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">DAYS&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="procedures">Procedures&lt;/h2>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sql" data-lang="sql">&lt;span class="line">&lt;span class="cl">&lt;span class="k">CALL&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">catalog_name&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="k">system&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">procedure_name&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">arg_name_2&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&amp;gt;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">arg_2&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">arg_name_1&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&amp;gt;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">arg_1&lt;/span>&lt;span class="p">);&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>function&lt;/th>
+&lt;th>usage&lt;/th>
+&lt;th>example&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>rollback_to_snapshot&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>rollback_to_timestamp&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>set_current_snapshot&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>cherrypick_snapshot&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>publish_changes&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>fast_forward&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>expire_snapshots&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>remove_orphan_files&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>rewrite_data_files&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>rewrite_manifests&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>rewrite_position_delete_files&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>snapshot&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>migrate&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>add_files&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>register_table&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>ancestors_of&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>create_changelog_view&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h2 id="query">Query&lt;/h2>
+&lt;ul>
+&lt;li>query with sql&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>SELECT * FROM prod.db.table;
+SELECT * FROM prod.db.table.files;&lt;/p>
+&lt;/blockquote>
+&lt;ul>
+&lt;li>Time Travel&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sql" data-lang="sql">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">-- time travel to October 26, 1986 at 01:21:00
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">SELECT&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">FROM&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="k">table&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">TIMESTAMP&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">AS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">OF&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;1986-10-26 01:21:00&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- time travel to snapshot with id 10963874102873L
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">SELECT&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">FROM&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="k">table&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">VERSION&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">AS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">OF&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="mi">10963874102873&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- time travel to the head snapshot of audit-branch
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">SELECT&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">FROM&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="k">table&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">VERSION&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">AS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">OF&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;audit-branch&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- time travel to the snapshot referenced by the tag historical-snapshot
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">SELECT&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">FROM&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">prod&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">db&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="k">table&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">VERSION&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">AS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">OF&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;historical-snapshot&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="writes">Writes&lt;/h2>
+&lt;ul>
+&lt;li>insert into&lt;/li>
+&lt;li>merge into&lt;/li>
+&lt;li>insert overwrite&lt;/li>
+&lt;li>delete from&lt;/li>
+&lt;li>update&lt;/li>
+&lt;/ul></description></item><item><title>Iceberg数据湖初探(一)</title><link>https://waveletbob.github.io/p/iceberg%E6%95%B0%E6%8D%AE%E6%B9%96%E5%88%9D%E6%8E%A2%E4%B8%80/</link><pubDate>Mon, 05 Feb 2024 09:57:19 +0800</pubDate><guid>https://waveletbob.github.io/p/iceberg%E6%95%B0%E6%8D%AE%E6%B9%96%E5%88%9D%E6%8E%A2%E4%B8%80/</guid><description>&lt;h2 id="简介">简介&lt;/h2>
 &lt;p>iceberg是一种适用于大规模数据集的开放数据湖表格式，介于数据存储与数据查询中间的表格式定义。方便大数据集的读写，为数据湖分析提供通用的数据管理，支持多类大数据引擎：Spark、Hive、Trino、Flink、Impala等&lt;/p>
 &lt;h2 id="支持特性">支持特性&lt;/h2>
 &lt;ul>
