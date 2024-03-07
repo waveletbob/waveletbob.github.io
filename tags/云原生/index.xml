@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>云原生 on Wavelet's blog</title><link>https://waveletbob.github.io/tags/%E4%BA%91%E5%8E%9F%E7%94%9F/</link><description>Recent content in 云原生 on Wavelet's blog</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>waveletbob@gmail.com</copyright><lastBuildDate>Tue, 20 Feb 2024 11:56:19 +0800</lastBuildDate><atom:link href="https://waveletbob.github.io/tags/%E4%BA%91%E5%8E%9F%E7%94%9F/index.xml" rel="self" type="application/rss+xml"/><item><title>k8s实践指南</title><link>https://waveletbob.github.io/p/k8s%E5%AE%9E%E8%B7%B5%E6%8C%87%E5%8D%97/</link><pubDate>Tue, 20 Feb 2024 11:56:19 +0800</pubDate><guid>https://waveletbob.github.io/p/k8s%E5%AE%9E%E8%B7%B5%E6%8C%87%E5%8D%97/</guid><description>&lt;h2 id="简介">简介&lt;/h2>
+&lt;p>k8s是云服务基础平台，用于容器服务资源编排，便于管理云服务之上的容器，包括计算资源、存储资源、网络资源等；&lt;/p>
+&lt;h2 id="k8s安装">k8s安装&lt;/h2>
+&lt;p>便于本地调试使用，可以借助docker-desktop安装k8s容器云配置服务&lt;/p>
+&lt;p>配置：&lt;/p>
+&lt;p>命令：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">kubectl version
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">kubectl get/delete/describe pod/depoly/rs/rc/confimap/ xx -n ns -l xx*
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="k8s应用安装">k8s应用安装&lt;/h2>
+&lt;ul>
+&lt;li>helm&lt;/li>
+&lt;li>yaml配置&lt;/li>
+&lt;li>operation&lt;/li>
+&lt;/ul>
+&lt;h2 id="周边服务">周边服务&lt;/h2></description></item></channel></rss>

@@ -268,7 +268,8 @@
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">AS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">OF&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">VERSION&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="mi">4567&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">RETAIN&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="mi">60&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">DAYS&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h2 id="procedures">Procedures&lt;/h2>
+&lt;/div>&lt;h2 id="configuration">Configuration&lt;/h2>
+&lt;h2 id="procedures">Procedures&lt;/h2>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -523,4 +524,28 @@ alt="snapshot"
 &lt;li>ScanReport&lt;/li>
 &lt;li>CommitReport&lt;/li>
 &lt;li>Available Metrics Reporters&lt;/li>
+&lt;/ul>
+&lt;h2 id="roadmap">roadmap&lt;/h2>
+&lt;ul>
+&lt;li>Core-General
+&lt;ul>
+&lt;li>多表事务&lt;/li>
+&lt;li>视图支持&lt;/li>
+&lt;li>CDC支持&lt;/li>
+&lt;li>副本标签分支&lt;/li>
+&lt;li>即时文件合并&lt;/li>
+&lt;li>删除文件合并&lt;/li>
+&lt;li>Z-order排序/&lt;/li>
+&lt;li>Upsert支持&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Clients
+&lt;ul>
+&lt;li>Python&lt;/li>
+&lt;li>Rust&lt;/li>
+&lt;li>Go&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Spec V2&lt;/li>
+&lt;li>Spec V3&lt;/li>
 &lt;/ul></description></item></channel></rss>

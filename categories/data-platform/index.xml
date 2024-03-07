@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>data-platform on Wavelet's blog</title><link>https://waveletbob.github.io/categories/data-platform/</link><description>Recent content in data-platform on Wavelet's blog</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>waveletbob@gmail.com</copyright><lastBuildDate>Thu, 29 Feb 2024 19:37:19 +0800</lastBuildDate><atom:link href="https://waveletbob.github.io/categories/data-platform/index.xml" rel="self" type="application/rss+xml"/><item><title>如何建设1个数据平台</title><link>https://waveletbob.github.io/p/%E5%A6%82%E4%BD%95%E5%BB%BA%E8%AE%BE1%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%B9%B3%E5%8F%B0/</link><pubDate>Thu, 29 Feb 2024 19:37:19 +0800</pubDate><guid>https://waveletbob.github.io/p/%E5%A6%82%E4%BD%95%E5%BB%BA%E8%AE%BE1%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%B9%B3%E5%8F%B0/</guid><description>&lt;h2 id="平台">平台&lt;/h2>
+&lt;ul>
+&lt;li>Source 数据源&lt;/li>
+&lt;li>Integration 摄取整合
+&lt;ul>
+&lt;li>Batch&lt;/li>
+&lt;li>Streaming&lt;/li>
+&lt;li>Event
+&lt;ul>
+&lt;li>CDC&lt;/li>
+&lt;li>CLick Streaming&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Data Store 数据存储-湖仓一体
+&lt;ul>
+&lt;li>数据湖(三剑客 Doris trino Presto)&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Transformation 数据转换（Flinksql）&lt;/li>
+&lt;li>Orchestration 编排(Airflow)&lt;/li>
+&lt;li>Presentation 智能分析（Tableau, PowerBI, Looker, and Qlik ）&lt;/li>
+&lt;li>Transportation 传输（hightouch）&lt;/li>
+&lt;li>Observability 可观测性元数据系统-DataHub&lt;/li>
+&lt;/ul>
+&lt;h2 id="数据架构">数据架构&lt;/h2>
+&lt;p>不同数据源按照不同的计算引擎整合到数据湖/数仓+sql提供数据etl+统一数据查询接口
+统一读写资源编排
+自底向上：
+网络+存储SSD-存储：CFS/文件系统HDFS-alluixo+S3/Dfs-文件格式（parquet/orc)-冷热数据-dw(hive/iceberg/doris)-计算引擎-sql路由接口-数据同步方式&lt;/p></description></item></channel></rss>
