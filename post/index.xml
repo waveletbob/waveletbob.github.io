@@ -1,4 +1,73 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Wavelet's blog</title><link>https://waveletbob.github.io/post/</link><description>Recent content in Posts on Wavelet's blog</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>waveletbob@gmail.com</copyright><lastBuildDate>Fri, 08 Mar 2024 10:35:19 +0800</lastBuildDate><atom:link href="https://waveletbob.github.io/post/index.xml" rel="self" type="application/rss+xml"/><item><title>Iceberg元数据管理</title><link>https://waveletbob.github.io/p/iceberg%E5%85%83%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86/</link><pubDate>Fri, 08 Mar 2024 10:35:19 +0800</pubDate><guid>https://waveletbob.github.io/p/iceberg%E5%85%83%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86/</guid><description>&lt;h2 id="metadata">metadata&lt;/h2>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Wavelet's blog</title><link>https://waveletbob.github.io/post/</link><description>Recent content in Posts on Wavelet's blog</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>waveletbob@gmail.com</copyright><lastBuildDate>Thu, 21 Mar 2024 11:35:19 +0800</lastBuildDate><atom:link href="https://waveletbob.github.io/post/index.xml" rel="self" type="application/rss+xml"/><item><title>Spark-sql是怎么实现通用写入的</title><link>https://waveletbob.github.io/p/spark-sql%E6%98%AF%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E9%80%9A%E7%94%A8%E5%86%99%E5%85%A5%E7%9A%84/</link><pubDate>Thu, 21 Mar 2024 11:35:19 +0800</pubDate><guid>https://waveletbob.github.io/p/spark-sql%E6%98%AF%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E9%80%9A%E7%94%A8%E5%86%99%E5%85%A5%E7%9A%84/</guid><description>&lt;h2 id="uml">UML&lt;/h2>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-scala" data-lang="scala">&lt;span class="line">&lt;span class="cl">&lt;span class="n">data&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">write&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">format&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="s">&amp;#34;iceberg&amp;#34;&lt;/span>&lt;span class="o">).&lt;/span>&lt;span class="n">mode&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="s">&amp;#34;append&amp;#34;&lt;/span>&lt;span class="o">).&lt;/span>&lt;span class="n">insertInto&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="s">s&amp;#34;local.gaia.&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="n">table&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s">_iceberg&amp;#34;&lt;/span>&lt;span class="o">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">def&lt;/span> &lt;span class="n">insertInto&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">tableName&lt;/span>&lt;span class="k">:&lt;/span> &lt;span class="kt">String&lt;/span>&lt;span class="o">)&lt;/span>&lt;span class="k">:&lt;/span> &lt;span class="kt">Unit&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">import&lt;/span> &lt;span class="nn">df.sparkSession.sessionState.analyzer.&lt;/span>&lt;span class="o">{&lt;/span>&lt;span class="nc">AsTableIdentifier&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="nc">NonSessionCatalogAndIdentifier&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="nc">SessionCatalogAndIdentifier&lt;/span>&lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">import&lt;/span> &lt;span class="nn">org.apache.spark.sql.connector.catalog.CatalogV2Implicits._&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">assertNotBucketed&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="s">&amp;#34;insertInto&amp;#34;&lt;/span>&lt;span class="o">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="o">(&lt;/span>&lt;span class="n">partitioningColumns&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">isDefined&lt;/span>&lt;span class="o">)&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">throw&lt;/span> &lt;span class="nc">QueryCompilationErrors&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">partitionByDoesNotAllowedWhenUsingInsertIntoError&lt;/span>&lt;span class="o">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">val&lt;/span> &lt;span class="n">session&lt;/span> &lt;span class="k">=&lt;/span> &lt;span class="n">df&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">sparkSession&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">val&lt;/span> &lt;span class="n">canUseV2&lt;/span> &lt;span class="k">=&lt;/span> &lt;span class="n">lookupV2Provider&lt;/span>&lt;span class="o">().&lt;/span>&lt;span class="n">isDefined&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">session&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">sessionState&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">sqlParser&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">parseMultipartIdentifier&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">tableName&lt;/span>&lt;span class="o">)&lt;/span> &lt;span class="k">match&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">case&lt;/span> &lt;span class="nc">NonSessionCatalogAndIdentifier&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">catalog&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="n">ident&lt;/span>&lt;span class="o">)&lt;/span> &lt;span class="k">=&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">insertInto&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">catalog&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="n">ident&lt;/span>&lt;span class="o">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">case&lt;/span> &lt;span class="nc">SessionCatalogAndIdentifier&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">catalog&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="n">ident&lt;/span>&lt;span class="o">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="n">canUseV2&lt;/span> &lt;span class="o">&amp;amp;&amp;amp;&lt;/span> &lt;span class="n">ident&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">namespace&lt;/span>&lt;span class="o">().&lt;/span>&lt;span class="n">length&lt;/span> &lt;span class="o">&amp;lt;=&lt;/span> &lt;span class="mi">1&lt;/span> &lt;span class="k">=&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">insertInto&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">catalog&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="n">ident&lt;/span>&lt;span class="o">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">case&lt;/span> &lt;span class="nc">AsTableIdentifier&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">tableIdentifier&lt;/span>&lt;span class="o">)&lt;/span> &lt;span class="k">=&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">insertInto&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">tableIdentifier&lt;/span>&lt;span class="o">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">case&lt;/span> &lt;span class="n">other&lt;/span> &lt;span class="k">=&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">throw&lt;/span> &lt;span class="nc">QueryCompilationErrors&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">cannotFindCatalogToHandleIdentifierError&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">other&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">quoted&lt;/span>&lt;span class="o">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>重写接口：spark.sql.connector.write/read.Write-&amp;gt;DataFrameWriter-&amp;gt;insertInto&lt;/p>
+&lt;p>iceberg-SparkWriter（继承Writer）/FlinkSink()&lt;/p>
+&lt;p>&lt;img src="https://waveletbob.github.io/image.png"
+loading="lazy"
+alt="image"
+>
+hudi-&amp;gt;&lt;/p></description></item><item><title>Iceberg元数据管理</title><link>https://waveletbob.github.io/p/iceberg%E5%85%83%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86/</link><pubDate>Fri, 08 Mar 2024 10:35:19 +0800</pubDate><guid>https://waveletbob.github.io/p/iceberg%E5%85%83%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86/</guid><description>&lt;h2 id="metadata">metadata&lt;/h2>
 &lt;p>从上向下，可以分为：
 snapshot-副本，标识表数据版本，每次更新都会产生1个snapshot，过期的snapshot会被自动清理&lt;/p>
 &lt;p>manifest：1个snapshot包含多个maifest&lt;/p></description></item><item><title>如何建设1个数据平台</title><link>https://waveletbob.github.io/p/%E5%A6%82%E4%BD%95%E5%BB%BA%E8%AE%BE1%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%B9%B3%E5%8F%B0/</link><pubDate>Thu, 29 Feb 2024 19:37:19 +0800</pubDate><guid>https://waveletbob.github.io/p/%E5%A6%82%E4%BD%95%E5%BB%BA%E8%AE%BE1%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%B9%B3%E5%8F%B0/</guid><description>&lt;h2 id="平台">平台&lt;/h2>
